@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
+  get 'library/home'
   get 'reservations/newreservation' => 'reservations#newreservation'
   post 'reservations/new' => 'reservations#createreservation'
+  get 'members/signin' => 'members#signin'
+  post 'members/welcome' => 'members#welcome'
   resources :reservations
   resources :rooms
   resources :members
@@ -10,7 +13,7 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  #root 'library/home'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

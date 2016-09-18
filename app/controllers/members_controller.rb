@@ -21,6 +21,25 @@ class MembersController < ApplicationController
   def edit
   end
 
+  def signin
+  end
+
+  def welcome
+    params.permit('password', 'email')
+    if params['email'].empty? or params['password'].empty?
+      flash[:notice] = "UserName/Password cannot be empty"
+      render 'members/signin'
+    end
+    @member = Member.where("email LIKE ? and password LIKE ?", params['email'], params['password'])
+    if @member.count == 0
+      flash[:notice] = "UserName/Password not found. Please try again"
+      render 'members/signin'
+    end
+
+    session[:email] = params['email']
+    session[:name] = @member.collect {|member| member.name}
+    puts @member.collect {|member| member.name}
+  end
   # POST /members
   # POST /members.json
   def create
