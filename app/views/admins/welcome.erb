@@ -1,0 +1,11 @@
+<h1> Welcome to NCSU Libraries </h1>
+<%= "Logged in as - Admin : " %>
+<%=  session[:name].at(0) %>
+<br />
+<br />
+<br />
+<%= link_to 'Book the room', reservations_newreservation_path %>
+<br />
+<%= link_to 'Manage reservations', reservations_newreservation_path %>
+<br />
+<%= link_to 'Search available rooms', reservations_newreservation_path %>

@@ -17,6 +17,26 @@ class AdminsController < ApplicationController
     @admin = Admin.new
   end
 
+  def signin
+  end
+
+  def welcome
+    params.permit('password', 'email')
+    if params['email'].empty? or params['password'].empty?
+      flash[:notice] = "UserName/Password cannot be empty"
+      render 'admins/signin'
+    end
+    @admin = Admin.where("email LIKE ? and password LIKE ?", params['email'], params['password'])
+    if @admin.count == 0
+      flash[:notice] = "UserName/Password not found. Please try again"
+      render 'admins/signin'
+    end
+
+    session[:email] = params['email']
+    session[:name] = @admin.collect {|member| member.name}
+    puts @admin.collect {|member| member.name}
+  end
+
   # GET /admins/1/edit
   def edit
   end

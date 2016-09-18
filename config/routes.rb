@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   post 'reservations/new' => 'reservations#createreservation'
   get 'members/signin' => 'members#signin'
   post 'members/welcome' => 'members#welcome'
+  get 'admins/signin' => 'admins#signin'
+  post 'admins/welcome' => 'admins#welcome'
   resources :reservations
   resources :rooms
   resources :members
