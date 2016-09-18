@@ -1,4 +1,7 @@
 <h1>Create New reservation</h1>
+<% if flash.notice %>
+    <div id="error"><%=flash[:notice]%></div>
+<% end %>
 <h2>Select building</h2>
 <%= form_tag('/reservations/new', method: "post") do %>
   <%= select_tag(:building, options_for_select([["D.H.Hill", "D.H.Hill"],['Hunt', 'James. B. Hunt']], 'James. B. Hunt')) %>

@@ -16,15 +16,11 @@
   </div>
   <div class="field">
     <%= f.label :start_time %><br>
-    <%= f.datetime_select :start_time %>
+    <%= f.datetime_select :start_time, start_year: Date.today.year, end_year: Date.today.year+1 %>
   </div>
   <div class="field">
     <%= f.label :end_time %><br>
-    <%= f.datetime_select :end_time %>
-  </div>
-  <div class="field">
-    <%= f.label :status %><br>
-    <%= f.text_field :status %>
+    <%= f.datetime_select :end_time, start_year: Date.today.year, end_year: Date.today.year+1 %>
   </div>
   <div class="actions">
     <%= f.submit %>

@@ -42,10 +42,20 @@ class ReservationsController < ApplicationController
   # POST /reservations.json
   def create
     @reservation = Reservation.new(reservation_params)
+    puts @reservation.start_time
+    puts @reservation.end_time
+    if @reservation.start_time > @reservation.end_time
+      flash[:notice] = "ERROR: Booking start  time can't be greater than end time"
+      render 'reservations/newreservation' and return
+    end
+    if @reservation.start_time + 2.hours < @reservation.end_time
+      flash[:notice] = "ERROR : Reservation can be made only for 2 hours at a time"
+      render 'reservations/newreservation' and return
+    end
 
     respond_to do |format|
       if @reservation.save
-        format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' }
+        format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' and return }
         format.json { render :show, status: :created, location: @reservation }
       else
         format.html { render :new }
