@@ -26,6 +26,14 @@ class ReservationsController < ApplicationController
     render 'reservations/newreservation'
   end
 
+  def managereservation
+    @room = Room.all
+    puts "Manage reservation"
+    puts @room
+    puts "************************************"
+    render 'reservations/managereservation'
+  end
+
   def createreservation
     @room = Room.all
     @reservation = Reservation.new

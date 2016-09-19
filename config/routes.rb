@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   get 'library/home'
   get 'reservations/newreservation' => 'reservations#newreservation'
   post 'reservations/new' => 'reservations#createreservation'
+  get 'reservations/managereservation' => 'reservations#managereservation'
   get 'members/signin' => 'members#signin'
   post 'members/welcome' => 'members#welcome'
   get 'admins/signin' => 'admins#signin'
