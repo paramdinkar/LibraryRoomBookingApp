@@ -42,6 +42,8 @@ class ReservationsController < ApplicationController
   # POST /reservations.json
   def create
     @reservation = Reservation.new(reservation_params)
+    @room = Room.where("room_number LIKE ?", @reservation.room_number)
+    @member = Member.where("email LIKE ?", session[:email])
     @current_reservations = Reservation.where("room_number LIKE ? and ? <= end_time and start_time <= ? ", @reservation.room_number,
     @reservation.start_time, @reservation.end_time)
     if not @current_reservations.nil? and not @current_reservations.empty?
@@ -50,6 +52,8 @@ class ReservationsController < ApplicationController
       flash[:notice] = "This room is not available at this time. Conflicts with other reservation which starts at #{@current_reservations.first.start_time} "
       render 'reservations/newreservation' and return
     end
+    puts @member.first.name
+    puts @member.first.id
     puts "******************************************"
     if @reservation.start_time > @reservation.end_time
       flash[:notice] = "ERROR: Booking start  time can't be greater than end time"
@@ -61,8 +65,10 @@ class ReservationsController < ApplicationController
       render 'reservations/newreservation' and return
     end
 
+    @reservation.room_id = @room.first.id
+    @member.first.reservations << @reservation
     respond_to do |format|
-      if @reservation.save
+      if @member.first.save
         format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' and return }
         format.json { render :show, status: :created, location: @reservation }
       else

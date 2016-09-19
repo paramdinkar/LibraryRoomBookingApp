@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160910181153) do
+ActiveRecord::Schema.define(version: 20160919053028) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -31,14 +31,16 @@ ActiveRecord::Schema.define(version: 20160910181153) do
 
   create_table "reservations", force: true do |t|
     t.integer  "room_id"
-    t.integer  "true_id"
     t.string   "room_number"
     t.datetime "start_time"
     t.datetime "end_time"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "members_id"
   end
+
+  add_index "reservations", ["members_id"], name: "index_reservations_on_members_id"
 
   create_table "rooms", force: true do |t|
     t.string   "room_number"
