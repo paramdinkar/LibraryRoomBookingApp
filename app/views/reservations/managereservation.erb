@@ -1,0 +1,15 @@
+<h1>Manage Reservations</h1>
+
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Room number:</strong>
+  <% @room.each do |room| %>
+      <%= room.room_number %>
+  <%end %>
+</p>
+
+<%= link_to 'Back', rooms_path %>
+
+
+
