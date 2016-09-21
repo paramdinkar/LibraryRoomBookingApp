@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   post 'members/welcome' => 'members#welcome'
   get 'admins/signin' => 'admins#signin'
   post 'admins/welcome' => 'admins#welcome'
+  get 'members/addPermission' => 'members#addPermission'
+  put 'members/updatePermissionForMultipleReservations' => 'members#updatePermissionForMultipleReservations'
   resources :reservations
   resources :rooms
   resources :members
