@@ -73,6 +73,16 @@ class ReservationsController < ApplicationController
       render 'reservations/newreservation' and return
     end
 
+    #User can only reserve one room at a perticular date and time without extra permission from admin
+    @user_reservations = Reservation.where("members_id == ? and ? <= end_time and start_time <= ? ", @member.first.id,
+                                              @reservation.start_time, @reservation.end_time)
+    if not @user_reservations.empty?
+      flash[:notice] = "ERROR : You already have reservation from #{@reservation.start_time} to #{@reservation.end_time} .
+      You can't book room during this time interval. Contact Administrator if you want to book multiple rooms with
+      overlapping time intervals"
+      render 'reservations/newreservation' and return
+    end
+
     @reservation.room_id = @room.first.id
     @member.first.reservations << @reservation
     respond_to do |format|
