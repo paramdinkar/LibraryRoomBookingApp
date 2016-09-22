@@ -1,0 +1,27 @@
+<% if not @reservations.nil? %>
+<h1>Past reservations</h1>
+
+<table>
+  <thead>
+  <tr>
+    <th>Room number</th>
+    <th>Start time</th>
+    <th>End time</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @reservations.each do |reservation| %>
+      <tr>
+        <td><%= reservation.room_number %></td>
+        <td><%= reservation.start_time %></td>
+        <td><%= reservation.end_time %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+<% end %>
+<% if @reservations.nil? %>
+    <h1>No past reservations found</h1>
+<% end %>

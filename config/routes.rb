@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'members/addPermission' => 'members#addPermission'
   put 'members/updatePermissionForMultipleReservations' => 'members#updatePermissionForMultipleReservations'
   get 'admins/getmembersWithMultipleReservation' => 'admins#getmembersWithMultipleReservation'
+  get 'members/pastReservations' => 'members#pastReservations'
   resources :reservations
   resources :rooms
   resources :members

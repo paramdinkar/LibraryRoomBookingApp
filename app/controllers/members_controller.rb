@@ -100,6 +100,11 @@ class MembersController < ApplicationController
 
   end
 
+  def pastReservations
+    @member = Member.where("email LIKE ?", session[:email]).first
+    @reservations = @member.reservations.where("end_time <= ?", Time.now)
+  end
+
   # DELETE /members/1
   # DELETE /members/1.json
   def destroy
