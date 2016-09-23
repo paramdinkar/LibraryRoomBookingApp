@@ -70,6 +70,41 @@ class MembersController < ApplicationController
     end
   end
 
+  def addPermission
+    render :updatepermission
+  end
+
+  def updatePermissionForMultipleReservations
+    print session[:email]
+    print '*******************'
+    @member = Member.where("email LIKE ?", params['email'])
+    if session[:email].nil? or session[:email].empty?
+      flash[:notice] = "Please login before adding permission"
+      render admins_signin_path and return
+    end
+    if @member.nil?
+      flash[:notice] = "#{params['email']} - member not found. Please check email and try again"
+      render :updatepermission and return
+    end
+    @member = @member.first
+    member_permission = {:isMultipleReservationAllowed => 'Yes'}
+
+
+    if @member.update(member_permission)
+      flash[:notice] = "Permission added successfully"
+      render :updatePermissionForMultipleReservations
+    else
+      flash[:notice] = "Update permission failed. Please try again"
+      render :updatePermissionForMultipleReservations
+    end
+
+  end
+
+  def pastReservations
+    @member = Member.where("email LIKE ?", session[:email]).first
+    @reservations = @member.reservations.where("end_time <= ?", Time.now)
+  end
+
   # DELETE /members/1
   # DELETE /members/1.json
   def destroy

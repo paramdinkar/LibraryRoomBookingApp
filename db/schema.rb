@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919053028) do
+ActiveRecord::Schema.define(version: 20160921162248) do
 
   create_table "admins", force: true do |t|
     t.string   "name"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20160919053028) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "isMultipleReservationAllowed", default: "No"
   end
 
   create_table "reservations", force: true do |t|

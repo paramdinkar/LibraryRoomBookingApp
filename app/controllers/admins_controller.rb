@@ -57,6 +57,12 @@ class AdminsController < ApplicationController
     end
   end
 
+  def getmembersWithMultipleReservation
+    @member = Member.where("isMultipleReservationAllowed LIKE ?", 'Yes')
+    render :showMembersWithMultipleReservePermission
+  end
+
+
   # PATCH/PUT /admins/1
   # PATCH/PUT /admins/1.json
   def update

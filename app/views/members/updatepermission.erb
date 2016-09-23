@@ -1,0 +1,8 @@
+<% if flash.notice %>
+    <div class="error"><%= flash[:notice] %></div>
+<% end %>
+<%= form_tag members_updatePermissionForMultipleReservations_path, :method => :put do %>
+    <h4>Email</h4>
+    <%= email_field_tag "email" %>
+    <%= submit_tag "Add Permission" %>
+<% end %>
