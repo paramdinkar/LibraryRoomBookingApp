@@ -2,14 +2,33 @@
 
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Room number:</strong>
-  <% @room.each do |room| %>
-      <%= room.room_number %>
-  <%end %>
-</p>
+<table>
+  <thead>
+  <tr>
+    <th>Room number</th>
+    <th>Building</th>
+    <th>Size</th>
+    <th>Status</th>
+    <th colspan="3"></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @reservations.each do |reservation| %>
+      <tr>
+        <td><%= reservation.room_number %></td>
+        <td><%= reservation.room.building %></td>
+        <td><%= reservation.created_at %></td>
+        <td><%= reservation.end_time %></td>
+        <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
 
 <%= link_to 'Back', rooms_path %>
+
+
 
 
 
