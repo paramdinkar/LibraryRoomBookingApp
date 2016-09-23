@@ -4,6 +4,7 @@ class SendEmail < ActionMailer::Base
       @user = user
       @reservation = reservation
       @url = "http://www.google.com/"
-      mail(to: @user.email, subject: 'NCSU Libraries room reservation')
+      mail(to: @user.email+','+reservation.partnersEmail, subject: 'NCSU Libraries room reservation')
+
   end
 end

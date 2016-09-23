@@ -86,6 +86,8 @@ class ReservationsController < ApplicationController
     @reservation.room_id = @room.first.id
     @member.first.reservations << @reservation
     SendEmail.reservation_email(@member.first, @reservation).deliver
+
+
     respond_to do |format|
       if @member.first.save
         format.html { redirect_to @reservation, notice: 'Reservation was successfully created.' and return }
@@ -129,6 +131,6 @@ class ReservationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def reservation_params
-      params.require(:reservation).permit(:room_number, :start_time, :end_time, :status)
+      params.require(:reservation).permit(:room_number, :start_time, :end_time, :status, :partnersEmail)
     end
 end
