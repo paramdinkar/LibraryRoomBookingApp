@@ -12,6 +12,13 @@ class MembersController < ApplicationController
   def show
   end
 
+  def managereservation
+    #@room = Room.where("status LIKE ?", "Reserved")
+    @member = Member.where("email LIKE ?", session[:email]).first
+    @reservations = @member.reservations
+    render 'reservations/managereservation'
+  end
+
   # GET /members/new
   def new
     @member = Member.new
