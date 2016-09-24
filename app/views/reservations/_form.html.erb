@@ -22,6 +22,10 @@
     <%= f.label :end_time %><br>
     <%= f.datetime_select :end_time, start_year: Date.today.year, end_year: Date.today.year+1 %>
   </div>
+    <div class="field">
+       <%= f.label :partnersEmail %><br>
+       <%= f.text_field :partnersEmail , :placeholder => "Enter comma seperated emails"%>
+    </div>
   <div class="actions">
     <%= f.submit %>
   </div>
