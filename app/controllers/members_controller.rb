@@ -15,11 +15,7 @@ class MembersController < ApplicationController
   # GET /members/1
   # GET /members/1.json
   def show
-    status_code = isMemberLoggedIn
-    if status_code == false
-      flash[:notice] = "Please login before you continue"
-      render members_signin_path and return
-    end
+
   end
 
   def managereservation
@@ -71,11 +67,6 @@ class MembersController < ApplicationController
   # POST /members
   # POST /members.json
   def create
-    status_code = isMemberLoggedIn
-    if status_code == false
-      flash[:notice] = "Please login before you continue"
-      render members_signin_path and return
-    end
     @member = Member.new(member_params)
 
     respond_to do |format|

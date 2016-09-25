@@ -35,10 +35,7 @@ class AdminsController < ApplicationController
   # GET /admins/1
   # GET /admins/1.json
   def show
-    status_code = isAdminLoggedIn
-    if status_code == false
-      render admins_signin_path and return
-    end
+
   end
 
   # GET /admins/new
@@ -90,10 +87,6 @@ class AdminsController < ApplicationController
   # POST /admins
   # POST /admins.json
   def create
-    status_code = isAdminLoggedIn
-    if status_code == false
-      render admins_signin_path and return
-    end
 
     @admin = Admin.new(admin_params)
 
