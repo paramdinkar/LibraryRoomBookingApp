@@ -60,9 +60,7 @@ class ReservationsController < ApplicationController
       flash[:notice] = "This room is not available at this time. Conflicts with other reservation which starts at #{@current_reservations.first.start_time} "
       render 'reservations/newreservation' and return
     end
-    puts @member.first.name
-    puts @member.first.id
-    puts "******************************************"
+
     if @reservation.start_time > @reservation.end_time
       flash[:notice] = "ERROR: Booking start  time can't be greater than end time"
       render 'reservations/newreservation' and return

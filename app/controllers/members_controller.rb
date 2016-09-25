@@ -4,16 +4,32 @@ class MembersController < ApplicationController
   # GET /members
   # GET /members.json
   def index
+    status_code = isMemberLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
     @members = Member.all
   end
 
   # GET /members/1
   # GET /members/1.json
   def show
+    status_code = isMemberLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
   end
 
   def managereservation
     #@room = Room.where("status LIKE ?", "Reserved")
+    status_code = isMemberLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
+
     @member = Member.where("email LIKE ?", session[:email]).first
     @reservations = @member.reservations
     render 'reservations/managereservation'
@@ -26,6 +42,11 @@ class MembersController < ApplicationController
 
   # GET /members/1/edit
   def edit
+    status_code = isMemberLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
   end
 
   def signin
@@ -35,21 +56,26 @@ class MembersController < ApplicationController
     params.permit('password', 'email')
     if params['email'].empty? or params['password'].empty?
       flash[:notice] = "UserName/Password cannot be empty"
-      render 'members/signin'
+      render 'members/signin' and return
     end
     @member = Member.where("email LIKE ? and password LIKE ?", params['email'], params['password'])
     if @member.count == 0
       flash[:notice] = "UserName/Password not found. Please try again"
-      render 'members/signin'
+      render 'members/signin' and return
     end
 
     session[:email] = params['email']
+    session[:role] = 'member'
     session[:name] = @member.collect {|member| member.name}
-    puts @member.collect {|member| member.name}
   end
   # POST /members
   # POST /members.json
   def create
+    status_code = isMemberLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
     @member = Member.new(member_params)
 
     respond_to do |format|
@@ -66,6 +92,11 @@ class MembersController < ApplicationController
   # PATCH/PUT /members/1
   # PATCH/PUT /members/1.json
   def update
+    status_code = isMemberLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
     respond_to do |format|
       if @member.update(member_params)
         format.html { redirect_to @member, notice: 'Member was successfully updated.' }
@@ -78,12 +109,22 @@ class MembersController < ApplicationController
   end
 
   def addPermission
+    status_code = isMemberLoggedIn(false)
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
+
     render :updatepermission
   end
 
   def updatePermissionForMultipleReservations
-    print session[:email]
-    print '*******************'
+    status_code = isMemberLoggedIn(false)
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
+
     @member = Member.where("email LIKE ?", params['email'])
     if session[:email].nil? or session[:email].empty?
       flash[:notice] = "Please login before adding permission"
@@ -108,13 +149,39 @@ class MembersController < ApplicationController
   end
 
   def pastReservations
+    status_code = isMemberLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
     #@member = Member.where("email LIKE ?", session[:email]).first
     emailmember = params[:email_param]
     @member = Member.where("email LIKE ?", emailmember).first
     @reservations = @member.reservations.where("end_time <= ?", Time.now)
   end
 
+  def isMemberLoggedIn(verifyRole = true)
+    if not session[:email].nil? and not session[:email].empty?
+      if verifyRole
+        if not session[:role].nil? and session[:role] == 'member'
+          return true
+        else
+          return false
+        end
+      else
+        return true
+      end
+    end
+
+    return false
+  end
+
+
   def searchRooms
+    status_code = isMemberLoggedIn(false)
+    if status_code == false
+      render members_signin_path and return
+    end
     render :search
   end
 
@@ -139,7 +206,7 @@ class MembersController < ApplicationController
 
     if not param_array[:room_number].nil? and not param_array[:room_number].empty?
 
-      if reservations.nil?
+      if rooms.nil?
         rooms = Room.where(search_string[:room_number], param_array[:room_number])
       else
         rooms = rooms.where(search_string[:room_number], param_array[:room_number])
@@ -181,6 +248,12 @@ class MembersController < ApplicationController
   end
 
   def searchFilter
+    status_code = isMemberLoggedIn(false)
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
+
     search_query_string = {}
 
     unless params[:room_number].nil?
@@ -204,6 +277,13 @@ class MembersController < ApplicationController
   # DELETE /members/1
   # DELETE /members/1.json
   def destroy
+    status_code = isMemberLoggedIn
+
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
+
     @member.destroy
     respond_to do |format|
       format.html { redirect_to members_url, notice: 'Member was successfully destroyed.' }
