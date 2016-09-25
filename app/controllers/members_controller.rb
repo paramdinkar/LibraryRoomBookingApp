@@ -182,11 +182,25 @@ class MembersController < ApplicationController
     if status_code == false
       render members_signin_path and return
     end
+
+    currentTime = DateTime.now
+    today = currentTime.beginning_of_day
+    @weekDates = [[today.strftime("%m/%d/%Y"), today], [(today+1.day).strftime("%m/%d/%Y"), today+1.day], [(today+2.day).strftime("%m/%d/%Y"), today+2.day],
+                  [(today+3.day).strftime("%m/%d/%Y"),today+3.day], [(today+4.day).strftime("%m/%d/%Y"),today+4.day], [(today+5.day).strftime("%m/%d/%Y"),today+5.day],
+                  [(today+6.day).strftime("%m/%d/%Y"),today+6.day]]
     render :search
   end
 
   def getAvailabilityOfRoom(param_array, search_string)
-    currentTime = DateTime.now
+    if not param_array[:date].nil? and not param_array[:date].empty?
+      currentTime = DateTime.parse(param_array[:date])
+      if currentTime < DateTime.now
+        currentTime = DateTime.now
+      end
+    else
+      currentTime = DateTime.now
+    end
+
     rooms = nil
 
     if not param_array[:building].nil? and not param_array[:building].empty?
