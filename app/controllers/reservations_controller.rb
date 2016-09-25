@@ -56,7 +56,8 @@ class ReservationsController < ApplicationController
     else
       @member = Member.where("email LIKE ?", params[:members_email])
       if @member.nil? or @member.empty?
-        render 'reservations/newreservation' and return 
+        flash[:notice] = "Member not found !"
+        render 'reservations/newreservation' and return
       end
     end
     @current_reservations = Reservation.where("room_number LIKE ? and ? <= end_time and start_time <= ? ", @reservation.room_number,

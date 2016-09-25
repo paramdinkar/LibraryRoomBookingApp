@@ -27,7 +27,7 @@
        <%= f.text_field :partnersEmail , :placeholder => "Enter comma seperated emails"%>
     </div>
     <% if session[:role] == "admin" %>
-        <%= text_field_tag  :members_email, "", class: 'ReservationsController' %>
+        <%= text_field_tag  :members_email, "", class: 'ReservationsController',:placeholder => "Enter member's email"%>
     <%end%>
   <div class="actions">
     <%= f.submit %>
