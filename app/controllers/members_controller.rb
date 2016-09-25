@@ -108,7 +108,9 @@ class MembersController < ApplicationController
   end
 
   def pastReservations
-    @member = Member.where("email LIKE ?", session[:email]).first
+    #@member = Member.where("email LIKE ?", session[:email]).first
+    emailmember = params[:email_param]
+    @member = Member.where("email LIKE ?", emailmember).first
     @reservations = @member.reservations.where("end_time <= ?", Time.now)
   end
 

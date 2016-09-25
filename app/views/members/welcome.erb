@@ -12,5 +12,5 @@
 <br />
 <%= link_to 'Manage profile', edit_member_path(@member.first) %>
 <br />
-<%= link_to 'Past reservations', members_pastReservations_path %>
+<%= link_to 'Past reservations', members_pastReservations_path(email_param: session[:email]) %>
 
