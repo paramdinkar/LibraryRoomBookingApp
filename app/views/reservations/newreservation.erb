@@ -5,8 +5,5 @@
 <h2>Select building</h2>
 <%= form_tag('/reservations/new', method: "post") do %>
   <%= select_tag(:building, options_for_select([["D.H.Hill", "D.H.Hill"],['Hunt', 'James. B. Hunt']], 'James. B. Hunt')) %>
-  <% if session[:role] == "admin" %>
-    <%= text_field_tag  session[:members_email], "", class: 'Admin' %>
-  <%end%>
   <%= submit_tag("Submit") %>
-<% end %>S
+<% end %>

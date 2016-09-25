@@ -51,7 +51,14 @@ class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new(reservation_params)
     @room = Room.where("room_number LIKE ?", @reservation.room_number)
-    @member = Member.where("email LIKE ?", session[:email])
+    if session[:role] != "admin"
+      @member = Member.where("email LIKE ?", session[:email])
+    else
+      @member = Member.where("email LIKE ?", params[:members_email])
+      if @member.nil? or @member.empty?
+        render 'reservations/newreservation' and return 
+      end
+    end
     @current_reservations = Reservation.where("room_number LIKE ? and ? <= end_time and start_time <= ? ", @reservation.room_number,
     @reservation.start_time, @reservation.end_time)
     if not @current_reservations.nil? and not @current_reservations.empty?
