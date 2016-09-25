@@ -1,19 +1,25 @@
 <% if flash.notice %>
     <div id="error"><%=flash[:notice]%></div>
 <% end %>
+<%if not @roomDicts.nil? and not @roomDicts.empty? %>
 <table>
   <thead>
   <tr>
     <th>Building </th>
     <th>Room Number </th>
-    <th>Available From </th>
-    <th>Available Till </th>
+    <% if @displayBookedFrom %>
+      <th>Booked From </th>
+      <th>Booked Till </th>
+    <% else %>
+        <th>Available From </th>
+        <th>Available Till </th>
+    <%end%>
     <th colspan="8"></th>
   </tr>
   </thead>
 
  <tbody>
-   <% @roomDict.each do |room, availableSlot| %>
+   <% @roomDicts.each do |room, availableSlot| %>
      <tr>
       <td><b><%= room.building %></b></td>
       <td><b><%= room.room_number %></b></td>
@@ -31,3 +37,10 @@
    <%end %>
  </tbody>
 </table>
+<% else %>
+  <% if @displayBookedFrom %>
+    <h2> No Booked reservations found </h2>
+  <%else%>
+    <h2> No free Reservation Slots Available </h2>
+  <%end%>
+<% end %>

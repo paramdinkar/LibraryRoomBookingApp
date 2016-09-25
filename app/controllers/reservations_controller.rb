@@ -82,6 +82,7 @@ class ReservationsController < ApplicationController
     end
 
     @reservation.room_id = @room.first.id
+    @reservation.status = "Booked"
     @member.first.reservations << @reservation
     SendEmail.reservation_email(@member.first, @reservation).deliver
 

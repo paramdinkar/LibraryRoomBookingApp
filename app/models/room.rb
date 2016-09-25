@@ -5,6 +5,6 @@ class Room < ActiveRecord::Base
    #self.primary_key = :room_number
    has_many :reservations, dependent: :destroy
    BUILDINGS = ['D.H.Hill', 'James. B. Hunt']
-   STATUS = ['Available', 'Reserved']
+   STATUS = ['Available', 'Booked']
    SIZE = ['SMALL(4)','MEDIUM(6)', 'LARGE(12)']
 end

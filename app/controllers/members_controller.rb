@@ -234,8 +234,9 @@ class MembersController < ApplicationController
     #return null if reservations.nil?
 
     @roomDict = {}
+    @reservedSlotDict = {}
 
-    if  params[:building].empty? and  params[:size].empty? and  params[:room_number].empty? and params[:status]
+    if  params[:building].empty? and  params[:size].empty? and  params[:room_number].empty?
       rooms = Room.all
     end
 
@@ -256,9 +257,16 @@ class MembersController < ApplicationController
       end
 
       @roomDict[room] = availableSlots
+      if reservedSlots.length > 1
+        @reservedSlotDict[room] = reservedSlots[0..-2]
+      end
     end
 
-    return @roomDict
+    if not param_array[:status].nil? and param_array[:status] == "Booked"
+      return @reservedSlotDict
+    else
+      return @roomDict
+    end
   end
 
   def searchFilter
@@ -276,14 +284,16 @@ class MembersController < ApplicationController
     unless params[:building].nil?
       search_query_string[:building] ="building LIKE ?"
     end
-    #unless params[:status].nil?
-    #  search_query_string[:status] = "status LIKE ?"
-    #end
+    unless params[:status].nil?
+      search_query_string[:status] = "status LIKE ?"
+    end
     unless params[:size].nil?
       search_query_string[:size] =  "size LIKE ?"
     end
 
     @roomDicts = getAvailabilityOfRoom(params, search_query_string)
+
+    @displayBookedFrom = true if not params[:status].nil? and params[:status] == "Booked" else false
 
     render :searchResults
   end
