@@ -1,6 +1,7 @@
 <h1>Signin to your account</h1>
 <% if flash.notice %>
     <div class="error"><%= flash[:notice] %></div>
+    <% flash.clear %>
 <% end %>
 <%= form_tag members_welcome_path, :method => :post do %>
     <h4>Email</h4>

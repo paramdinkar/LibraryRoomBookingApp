@@ -1,4 +1,5 @@
 class AdminsController < ApplicationController
+
   before_action :set_admin, only: [:show, :edit, :update, :destroy]
 
   # GET /admins
@@ -7,6 +8,15 @@ class AdminsController < ApplicationController
     @admins = Admin.all
   end
 
+  def managemember
+    @members = Member.all
+    render 'admins/managemember'
+  end
+
+  def managereservation
+    @reservations = Reservation.all
+    render 'reservations/manageadminreservation'
+  end
   # GET /admins/1
   # GET /admins/1.json
   def show

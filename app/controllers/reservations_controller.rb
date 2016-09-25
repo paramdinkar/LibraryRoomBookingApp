@@ -27,11 +27,12 @@ class ReservationsController < ApplicationController
   end
 
   def managereservation
-    #@room = Room.where("status LIKE ?", "Reserved")
-    @member = Member.where("email LIKE ?", session[:email]).first
-    @reservations = @member.reservations
     render 'reservations/managereservation'
-end
+  end
+
+  def manageadminreservation
+    render 'reservations/manageadminreservation'
+  end
 
   def createreservation
     @room = Room.all
