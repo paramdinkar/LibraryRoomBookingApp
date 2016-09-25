@@ -3,7 +3,7 @@
     <div id="error"><%=flash[:notice]%></div>
     <% flash.clear %>
 <% end %>
-<h2>Select building</h2>
+
 <%= form_tag('/members/searchFilter', method: "post") do %>
     <%= select_tag(:building, options_for_select([["D.H.Hill", "D.H.Hill"],['Hunt', 'James. B. Hunt']]), :include_blank => "Search based on building") %>
     <%= select_tag(:size, options_for_select(Room::SIZE), :include_blank => "Search based on Room Size") %>
