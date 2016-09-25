@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.10'
+gem 'pg'
 gem 'seed-fu'
 
 # Use SCSS for stylesheets
@@ -38,5 +39,5 @@ gem 'spring',        group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-gem 'pg'
-gem 'rails_12factor'
+
+
