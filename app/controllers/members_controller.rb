@@ -105,6 +105,93 @@ class MembersController < ApplicationController
     @reservations = @member.reservations.where("end_time <= ?", Time.now)
   end
 
+  def searchRooms
+    render :search
+  end
+
+  def getAvailabilityOfRoom(param_array, search_string)
+    currentTime = DateTime.now
+    rooms = nil
+
+    if not param_array[:building].nil? and not param_array[:building].empty?
+      rooms = Room.where(search_string[:building], param_array[:building])
+      return nil if rooms.nil?
+    end
+
+    if not param_array[:size].nil? and not param_array[:size].empty?
+      if rooms.nil?
+         rooms = Room.where(search_string[:size], param_array[:size])
+      else
+        rooms = rooms.where(search_string[:size], param_array[:size])
+      end
+
+      return nil if rooms.nil?
+    end
+
+    if not param_array[:room_number].nil? and not param_array[:room_number].empty?
+
+      if reservations.nil?
+        rooms = Room.where(search_string[:room_number], param_array[:room_number])
+      else
+        rooms = rooms.where(search_string[:room_number], param_array[:room_number])
+      end
+
+      return nil if rooms.nil?
+    end
+
+    #reservations = Reservation.where("room_number LIKE ? and start_time > ? and end_time < ?", room_number, currentTime, currentTime.end_of_day)
+
+    #return null if reservations.nil?
+
+    @roomDict = {}
+
+    if  params[:building].empty? and  params[:size].empty? and  params[:room_number].empty? and params[:status]
+      rooms = Room.all
+    end
+
+    rooms.each do |room|
+      reservations = room.reservations.where("start_time > ? and end_time < ?", currentTime, currentTime.end_of_day)
+
+      reservedSlots = reservations.map {|a| [a.start_time, a.end_time] }
+
+      reservedSlots << [currentTime.end_of_day, currentTime.end_of_day]
+      reservedSlots.sort! { |a,b| a.at(0) <=> b.at(0)}
+      prev = currentTime
+      availableSlots = []
+      reservedSlots.each do |reserved|
+        if reserved[0] > prev
+          availableSlots << [prev, reserved[0]]
+        end
+        prev = reserved.at(1)
+      end
+
+      @roomDict[room] = availableSlots
+    end
+
+    return @roomDict
+  end
+
+  def searchFilter
+    search_query_string = {}
+
+    unless params[:room_number].nil?
+      search_query_string[:room_number] = "room_number LIKE ?"
+    end
+    unless params[:building].nil?
+      search_query_string[:building] ="building LIKE ?"
+    end
+    #unless params[:status].nil?
+    #  search_query_string[:status] = "status LIKE ?"
+    #end
+    unless params[:size].nil?
+      search_query_string[:size] =  "size LIKE ?"
+    end
+
+    @roomDicts = getAvailabilityOfRoom(params, search_query_string)
+
+    render :searchResults
+  end
+
   # DELETE /members/1
   # DELETE /members/1.json
   def destroy

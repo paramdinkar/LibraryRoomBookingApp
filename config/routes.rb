@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   put 'members/updatePermissionForMultipleReservations' => 'members#updatePermissionForMultipleReservations'
   get 'admins/getmembersWithMultipleReservation' => 'admins#getmembersWithMultipleReservation'
   get 'members/pastReservations' => 'members#pastReservations'
+  get 'members/search' => 'members#search'
+  post 'members/searchFilter' => 'members#searchFilter'
   resources :reservations
   resources :rooms
   resources :members

@@ -1,0 +1,33 @@
+<% if flash.notice %>
+    <div id="error"><%=flash[:notice]%></div>
+<% end %>
+<table>
+  <thead>
+  <tr>
+    <th>Building </th>
+    <th>Room Number </th>
+    <th>Available From </th>
+    <th>Available Till </th>
+    <th colspan="8"></th>
+  </tr>
+  </thead>
+
+ <tbody>
+   <% @roomDict.each do |room, availableSlot| %>
+     <tr>
+      <td><b><%= room.building %></b></td>
+      <td><b><%= room.room_number %></b></td>
+      <td> </td>
+       <td> </td>
+     </tr>
+     <% availableSlot.each do |slot| %>
+     <tr>
+       <td> </td>
+       <td> </td>
+       <td><%= slot[0].to_s %></td>
+       <td><%= slot[1].to_s %></td>
+     </tr>
+     <%end%>
+   <%end %>
+ </tbody>
+</table>

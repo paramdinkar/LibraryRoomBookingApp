@@ -1,0 +1,13 @@
+<h1>Enter Searching Criteria</h1>
+<% if flash.notice %>
+    <div id="error"><%=flash[:notice]%></div>
+    <% flash.clear %>
+<% end %>
+<h2>Select building</h2>
+<%= form_tag('/members/searchFilter', method: "post") do %>
+    <%= select_tag(:building, options_for_select([["D.H.Hill", "D.H.Hill"],['Hunt', 'James. B. Hunt']]), :include_blank => "Search based on building") %>
+    <%= select_tag(:size, options_for_select(Room::SIZE), :include_blank => "Search based on Room Size") %>
+    <%= select_tag(:status, options_for_select(Room::STATUS), :include_blank => "Search based on Room Status") %>
+    <%= text_field_tag :room_number, nil, placeholder: "Enter Room Number", class: 'form-control' %>
+    <%= submit_tag("Submit") %>
+<% end %>
