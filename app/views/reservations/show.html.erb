@@ -21,4 +21,9 @@
 </p>
 
 <%= link_to 'Edit', edit_reservation_path(@reservation) %> |
-<%= link_to 'Back', reservation_path%>
+<% if session[:role] == "admin" %>
+    <%= link_to 'Back', admins_homepage_path %>
+<%else%>
+    <%= link_to 'Back', members_homepage_path%>
+<%end%>
+

@@ -7,6 +7,7 @@ class AdminsController < ApplicationController
   def index
     status_code = isAdminLoggedIn
     if status_code == false
+      flash[:notice] = "Please login before you continue"
       render admins_signin_path and return
     end
 
@@ -16,6 +17,7 @@ class AdminsController < ApplicationController
   def managemember
     status_code = isAdminLoggedIn
     if status_code == false
+      flash[:notice] = "Please login before you continue"
       render admins_signin_path and return
     end
 
@@ -26,6 +28,7 @@ class AdminsController < ApplicationController
   def managereservation
     status_code = isAdminLoggedIn
     if status_code == false
+      flash[:notice] = "Please login before you continue"
       render admins_signin_path and return
     end
 
@@ -42,6 +45,7 @@ class AdminsController < ApplicationController
   def new
     status_code = isAdminLoggedIn
     if status_code == false
+      flash[:notice] = "Please login before you continue"
       render admins_signin_path and return
     end
     @admin = Admin.new
@@ -101,9 +105,20 @@ class AdminsController < ApplicationController
     end
   end
 
+  def homepage
+    status_code = isAdminLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render admins_signin_path and return
+    end
+    @admin = Admin.where("email LIKE ?", session[:email])
+    render admins_welcome_path
+  end
+
   def getmembersWithMultipleReservation
     status_code = isAdminLoggedIn
     if status_code == false
+      flash[:notice] = "Please login before you continue"
       render admins_signin_path and return
     end
     @member = Member.where("isMultipleReservationAllowed LIKE ?", 'Yes')
@@ -116,6 +131,7 @@ class AdminsController < ApplicationController
   def update
     status_code = isAdminLoggedIn
     if status_code == false
+      flash[:notice] = "Please login before you continue"
       render admins_signin_path and return
     end
 
@@ -135,6 +151,7 @@ class AdminsController < ApplicationController
   def destroy
     status_code = isAdminLoggedIn
     if status_code == false
+      flash[:notice] = "Please login before you continue"
       render admins_signin_path and return
     end
     @admin.destroy

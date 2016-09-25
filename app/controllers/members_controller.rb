@@ -64,6 +64,16 @@ class MembersController < ApplicationController
     session[:role] = 'member'
     session[:name] = @member.collect {|member| member.name}
   end
+
+  def homepage
+    status_code = isMemberLoggedIn
+    if status_code == false
+      flash[:notice] = "Please login before you continue"
+      render members_signin_path and return
+    end
+    @member = Member.where("email LIKE ?", session[:email])
+    render members_welcome_path
+  end
   # POST /members
   # POST /members.json
   def create
